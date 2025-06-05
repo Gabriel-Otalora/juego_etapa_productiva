@@ -1,0 +1,59 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+  color: white;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 30px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+button {
+  background: #00ffae;
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #00d394;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  width: 80%;
+  margin-top: 10px;
+  font-size: 1rem;
+}
+
+#opciones button {
+  display: block;
+  margin: 10px auto;
+}
+
+#certificado {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 20px;
+  font-size: 1.1rem;
+}

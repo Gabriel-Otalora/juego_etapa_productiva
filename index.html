@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Juego Con Preguntas Frecuentes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+
+    <!-- Pantalla de bienvenida -->
+    <div id="pantalla-inicio">
+      <h1>Bienvenido al juego</h1>
+      <p>Haz clic para leer las instrucciones</p>
+      <button onclick="mostrarInstrucciones()">Instrucciones</button>
+    </div>
+
+    <!-- Pantalla de instrucciones -->
+    <div id="pantalla-instrucciones" style="display: none;">
+      <h2>Instrucciones</h2>
+      <p>Responde cada pregunta antes de que el tiempo se acabe.<br>
+      Tienes 10 segundos por pregunta y 60 segundos en total para completar el juego.</p>
+      <button onclick="mostrarPantallaNombre()">Continuar</button>
+    </div>
+
+    <!-- Pantalla de registro de nombre -->
+    <div id="pantalla-nombre" style="display: none;">
+      <h2>Ingresa tu nombre</h2>
+      <input type="text" id="nombre-usuario" placeholder="Tu nombre">
+      <button onclick="guardarNombre()">Comenzar juego</button>
+    </div>
+
+    <!-- Pantalla de juego -->
+    <div id="pantalla-juego" style="display: none;">
+      <div id="temporizador-total">⏳ Tiempo restante: <span id="tiempo-total">60</span>s</div>
+      <div id="pregunta"></div>
+      <div id="opciones"></div>
+      <div id="respuesta"></div>
+      <div id="temporizador">⏱️ Tiempo para esta pregunta: <span id="tiempo-pregunta">10</span>s</div>
+      <div id="puntaje">Puntaje: 0</div>
+    </div>
+
+    <!-- Pantalla final mejorada con certificado -->
+    <div id="pantalla-final" style="display: none;">
+      <h2>¡Juego terminado!</h2>
+      <div id="certificado"></div>
+      <button onclick="volverAlInicio()">Volver al inicio</button>
+    </div>
+
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+</html>
