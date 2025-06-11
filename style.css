@@ -1,0 +1,128 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #1f4037, #99f2c8);
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+.main-layout {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.pantalla {
+  display: none;
+  max-width: 800px;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  margin: auto;
+}
+
+.pantalla:not(.oculto) {
+  display: block;
+}
+
+.columna {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.barra-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.contenido-pregunta {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+button {
+  background: #00ffae;
+  border: none;
+  color: black;
+  padding: 10px 25px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #00d394;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  width: 80%;
+  font-size: 1rem;
+  text-align: center;
+}
+
+#opciones button {
+  display: block;
+  margin: 10px auto;
+  width: 100%;
+  max-width: 400px;
+}
+
+#certificado {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 20px;
+  font-size: 1.1rem;
+  text-align: left;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.personaje-img {
+  width: 150px;
+  height: auto;
+  margin-top: 10px;
+}
+
+.cuadro-superior {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.oculto {
+  display: none !important;
+}

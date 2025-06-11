@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego de Preguntas Frecuentes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="main-layout">
+
+    <!-- Pantalla de bienvenida -->
+    <section id="pantalla-inicio" class="pantalla">
+      <div class="columna">
+        <div class="cuadro-superior">¡Buena suerte, futuro campeón! 🏆</div>
+        <h1>🎓 Bienvenido al Juego de Preguntas</h1>
+        <p>Haz clic para leer las instrucciones</p>
+        <button onclick="mostrarInstrucciones()">Ver Instrucciones</button>
+        <img src="img/personaje_1.png" alt="Personaje de bienvenida" class="personaje-img">
+      </div>
+    </section>
+
+    <!-- Pantalla de instrucciones -->
+    <section id="pantalla-instrucciones" class="pantalla oculto">
+      <div class="columna">
+        <h2>📋 Instrucciones</h2>
+        <ul>
+          <li>🕐 Tienes <strong>60 segundos</strong> para responder todas las preguntas.</li>
+          <li>⏳ Cada pregunta tiene <strong>10 segundos</strong> para responderse.</li>
+          <li>❌ Si se acaba el tiempo o respondes mal, se mostrará una retroalimentación.</li>
+          <li>🧾 Al finalizar, recibirás un certificado con tu nombre.</li>
+        </ul>
+        <button onclick="mostrarPantallaNombre()">Continuar</button>
+      </div>
+    </section>
+
+    <!-- Pantalla de registro de nombre -->
+    <section id="pantalla-nombre" class="pantalla oculto">
+      <div class="columna">
+        <h2>👤 Ingresa tu nombre</h2>
+        <input type="text" id="nombre-usuario" placeholder="Tu nombre">
+        <button onclick="guardarNombre()">Comenzar juego</button>
+      </div>
+    </section>
+
+    <!-- Pantalla de juego -->
+    <section id="pantalla-juego" class="pantalla oculto">
+      <div class="barra-top">
+        <span>⏱️ Total: <span id="tiempo-total">60</span>s</span>
+        <span>🎯 Pregunta: <span id="tiempo-pregunta">10</span>s</span>
+        <span>⭐ Puntaje: <span id="puntaje">0</span></span>
+      </div>
+      <div class="contenido-pregunta">
+        <h2 id="pregunta">Pregunta aquí</h2>
+        <div id="opciones"></div>
+        <p id="respuesta"></p>
+      </div>
+    </section>
+
+    <!-- Pantalla final -->
+    <section id="pantalla-final" class="pantalla oculto">
+      <div class="columna">
+        <div id="cuadro-final" class="cuadro-superior oculto">¡Felicidades, lo lograste! 🎉</div>
+        <img id="personaje-final" src="img/personaje_2.png" alt="Personaje ganador" class="personaje-img oculto">
+        <h2>🏁 ¡Juego terminado!</h2>
+        <div id="certificado"></div>
+        <button onclick="volverAlInicio()">Volver al inicio</button>
+      </div>
+    </section>
+
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
