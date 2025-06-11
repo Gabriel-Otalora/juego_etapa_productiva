@@ -1,15 +1,15 @@
 let preguntas = [
   {
-    pregunta: "¿Qué es la etapa productiva?",
+    pregunta: "¿Qué es la etapa prodcutiva?",
     opciones: ["Una etapa de descanso", "Una etapa de estudio", "Una etapa para aplicar conocimientos", "Una etapa de evaluación final"],
     respuesta: 2,
     retroalimentacion: "La etapa productiva es para aplicar los conocimientos adquiridos en un entorno real."
   },
   {
     pregunta: "¿Cuánto dura la etapa productiva?",
-    opciones: ["3 días", "Depende del programa", "1 semana", "Un semestre fijo"],
-    respuesta: 1,
-    retroalimentacion: "La duración varía según el programa de formación."
+    opciones: ["6 meses", "Depende del programa", "1 semana", "Un semestre y más"],
+    respuesta: 0,
+    retroalimentacion: "La duración es de 6 meses y tienes 2 años para realizarla y culminar."
   }
 ];
 
