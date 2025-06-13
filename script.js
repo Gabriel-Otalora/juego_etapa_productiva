@@ -145,7 +145,23 @@ function finalizarJuego() {
   `;
   document.getElementById("certificado").innerHTML = mensaje;
 }
+  // 🔥 Guarda el resultado en Firebase
+  guardarResultadoEnFirebase();
 
 function volverAlInicio() {
   location.reload();
 }
+function guardarResultadoEnFirebase() {
+  const fecha = new Date().toLocaleString();
+
+  firebase.database().ref("jugadores").push({
+    nombre: nombreJugador,
+    puntaje: puntaje,
+    correctas: respuestasCorrectas,
+    incorrectas: respuestasIncorrectas,
+    fecha: fecha
+  });
+
+  console.log("Resultado guardado en Firebase");
+}
+
