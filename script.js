@@ -11,12 +11,6 @@ let preguntas = [
     respuesta: 0,
     retroalimentacion: "La duración es de 6 meses y tienes 2 años para realizarla y culminar."
   }
-    {
-    pregunta: "¿Cuánto tiempo tiene para terminar la etapa prodcutiva?",
-    opciones: ["La que disponga usted", "Seis meses", "Dos años", "Un año y medio"],
-    respuesta: 2,
-    retroalimentacion: "El tiempo para terminar la etapa productiva es de dos años desde el incio."
-  },
 ];
 
 let indicePregunta = 0;
