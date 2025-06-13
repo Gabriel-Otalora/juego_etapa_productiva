@@ -144,9 +144,11 @@ function finalizarJuego() {
     <p>❌ Respuestas incorrectas: ${respuestasIncorrectas}</p>
   `;
   document.getElementById("certificado").innerHTML = mensaje;
-}
-  // 🔥 Guarda el resultado en Firebase
+
+    // 🔥 Guarda el resultado en Firebase
   guardarResultadoEnFirebase();
+}
+
 
 function volverAlInicio() {
   location.reload();
