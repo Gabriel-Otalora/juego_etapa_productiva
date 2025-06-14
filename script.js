@@ -145,8 +145,10 @@ function finalizarJuego() {
   `;
   document.getElementById("certificado").innerHTML = mensaje;
 
-    // 🔥 Guarda el resultado en Firebase
+    // 🔥 Guarda el resultado en Firebase y Sheets
   guardarResultadoEnFirebase();
+  guardarResultadoEnSheets(); 
+
 }
 
 
@@ -167,3 +169,28 @@ function guardarResultadoEnFirebase() {
   console.log("Resultado guardado en Firebase");
 }
 
+function guardarResultadoEnSheets() {
+  const webhookURL = "AQUÍ_PEGA_TU_URL_DEL_WEBAPP"; // 🔗 pega tu URL aquí
+
+  const datos = {
+    nombre: nombreJugador,
+    puntaje: puntaje,
+    correctas: respuestasCorrectas,
+    incorrectas: respuestasIncorrectas
+  };
+
+  fetch(webhookURL, {
+    method: "POST",
+    body: JSON.stringify(datos),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(res => res.text())
+  .then(respuesta => {
+    console.log("✅ Guardado en Google Sheets:", respuesta);
+  })
+  .catch(error => {
+    console.error("❌ Error al guardar en Google Sheets:", error);
+  });
+}
