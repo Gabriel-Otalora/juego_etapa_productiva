@@ -170,23 +170,20 @@ function guardarResultadoEnFirebase() {
 }
 
 function guardarResultadoEnSheets() {
-  const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSerojisgsMaE2LZ4zUtzYGe-gTJv2FzURCQDFHvsYEcWjaV-g/formResponse";
-
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzcQ95ZYgn-dfPBfPSubGVJJz3nAbsU03A6-jZbx0x4RxPYaYoRlLzvElfdrwl-iMR3lQ/exec';
+  
   const formData = new FormData();
   formData.append("entry.1107479099", nombreJugador);
   formData.append("entry.1288867357", puntaje);
   formData.append("entry.2051320357", respuestasCorrectas);
   formData.append("entry.1394445216", respuestasIncorrectas);
+  formData.append("entry.FECHAXXXXXXXX", new Date().toLocaleString()); 
 
-  fetch(formURL, {
-    method: "POST",
-    mode: "no-cors",
+  fetch(scriptURL, {
+    method: 'POST',
+    mode: 'no-cors',
     body: formData
   })
-  .then(() => {
-    console.log("✅ Guardado en Google Sheets correctamente");
-  })
-  .catch(error => {
-    console.error("❌ Error al guardar en Google Sheets:", error);
-  });
+  .then(() => console.log("✅ Guardado en Google Sheets correctamente"))
+  .catch(error => console.error("❌ Error al guardar en Google Sheets:", error));
 }
