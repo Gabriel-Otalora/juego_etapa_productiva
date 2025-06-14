@@ -170,7 +170,7 @@ function guardarResultadoEnFirebase() {
 }
 
 function guardarResultadoEnSheets() {
-  const webhookURL = "AQUÍ_PEGA_TU_URL_DEL_WEBAPP"; // 🔗 pega tu URL aquí
+  const webhookURL = "https://script.google.com/macros/s/AKfycbzcQ95ZYgn-dfPBfPSubGVJJz3nAbsU03A6-jZbx0x4RxPYaYoRlLzvElfdrwl-iMR3lQ/exec"; // URL aquí
 
   const datos = {
     nombre: nombreJugador,
