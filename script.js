@@ -170,7 +170,7 @@ function guardarResultadoEnFirebase() {
 }
 
 function guardarResultadoEnSheets() {
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbypgZwGEBUxHKYu-_wl7ruVCTsCNptfk0PjCGN25rpgy3FBgXqGhHMfPxHYep_ikuU4xA/exec';
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxHf2E6Ryw0xtCe3-Y7xog4uf7awBpQVLi7HRv-955vJdWG3iOomNOEhYtvtXcbHSvLjw/exec';
   
   const formData = new FormData();
   formData.append("entry.1170332590", nombreJugador);
