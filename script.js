@@ -170,14 +170,14 @@ function guardarResultadoEnFirebase() {
 }
 
 function guardarResultadoEnSheets() {
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbxHf2E6Ryw0xtCe3-Y7xog4uf7awBpQVLi7HRv-955vJdWG3iOomNOEhYtvtXcbHSvLjw/exec';
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbyjEMvnlC2bJ8dSjSfoVE7ClHM1IyE39SQv_CDu_S81pTNk_tWyrFPi-ouzQM2bSTxQog/exec';
   
   const formData = new FormData();
   formData.append("entry.1170332590", nombreJugador);
-  formData.append("entry.1369388644", puntaje);
-  formData.append("entry.1684532845", respuestasCorrectas);
+  formData.append("entry.1684532845", puntaje);
+  formData.append("entry.1369388644", respuestasCorrectas);
   formData.append("entry.12071704", respuestasIncorrectas);
-  formData.append("entry.FECHAXXXXXXXX", new Date().toLocaleString()); 
+  //formData.append("entry.FECHAXXXXXXXX", new Date().toLocaleString()); //Para implementar fecha 
 
   fetch(scriptURL, {
     method: 'POST',
