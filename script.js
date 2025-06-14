@@ -173,10 +173,10 @@ function guardarResultadoEnSheets() {
   const scriptURL = 'https://script.google.com/macros/s/AKfycbypgZwGEBUxHKYu-_wl7ruVCTsCNptfk0PjCGN25rpgy3FBgXqGhHMfPxHYep_ikuU4xA/exec';
   
   const formData = new FormData();
-  formData.append("entry.1107479099", nombreJugador);
-  formData.append("entry.1288867357", puntaje);
-  formData.append("entry.2051320357", respuestasCorrectas);
-  formData.append("entry.1394445216", respuestasIncorrectas);
+  formData.append("entry.1170332590", nombreJugador);
+  formData.append("entry.1369388644", puntaje);
+  formData.append("entry.1684532845", respuestasCorrectas);
+  formData.append("entry.12071704", respuestasIncorrectas);
   formData.append("entry.FECHAXXXXXXXX", new Date().toLocaleString()); 
 
   fetch(scriptURL, {
