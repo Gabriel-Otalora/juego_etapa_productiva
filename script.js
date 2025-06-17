@@ -1,22 +1,47 @@
-// Inicializa Firebase (reemplaza con tu configuración si es diferente)
+// Inicializa Firebase (usa tu configuración)
 const firebaseConfig = {
   apiKey: "AIzaSyDFC3lrOErLYnSp9_BPakKGpoFW66W6bK4",
   authDomain: "juegoetapaproductiva.firebaseapp.com",
   databaseURL: "https://juegoetapaproductiva-default-rtdb.firebaseio.com",
   projectId: "juegoetapaproductiva",
-  storageBucket: "juegoetapaproductiva.firebasestorage.app",
+  storageBucket: "juegoetapaproductiva.appspot.com",
   messagingSenderId: "934327191730",
   appId: "1:934327191730:web:c1e30ef2bfec9a0444e1ab"
 };
-
 firebase.initializeApp(firebaseConfig);
 
+// Variables globales
 let nombreJugador = "";
 let preguntas = [];
 let preguntaActual = 0;
 let respuestasCorrectas = 0;
 let respuestasIncorrectas = 0;
 let puntaje = 0;
+
+// Mostrar pantallas
+function mostrarPantalla(id) {
+  document.querySelectorAll(".pantalla").forEach(p => p.classList.add("oculto"));
+  document.getElementById(id).classList.remove("oculto");
+}
+
+function mostrarInstrucciones() {
+  mostrarPantalla("pantalla-instrucciones");
+}
+
+function mostrarPantallaNombre() {
+  mostrarPantalla("pantalla-nombre");
+}
+
+// Guardar nombre y cargar preguntas desde Firebase
+function guardarNombre() {
+  const nombre = document.getElementById("nombre-usuario").value.trim();
+  if (nombre !== "") {
+    nombreJugador = nombre;
+    cargarPreguntasDesdeFirebase(iniciarJuego);
+  } else {
+    alert("Por favor, ingresa tu nombre.");
+  }
+}
 
 // Cargar preguntas desde Firebase
 function cargarPreguntasDesdeFirebase(callback) {
@@ -37,7 +62,7 @@ function cargarPreguntasDesdeFirebase(callback) {
       }
 
       preguntas = todasPreguntas.slice(0, 3);
-      callback(); // Iniciar el juego
+      callback(); // Inicia el juego
     })
     .catch(error => {
       console.error("❌ Error al cargar preguntas:", error);
@@ -45,29 +70,13 @@ function cargarPreguntasDesdeFirebase(callback) {
     });
 }
 
-function mostrarInstrucciones() {
-  mostrarPantalla("pantalla-instrucciones");
-}
-
-// Guardar nombre y cargar preguntas
-function guardarNombre() {
-  const nombre = document.getElementById("nombre-usuario").value.trim();
-  if (nombre !== "") {
-    nombreJugador = nombre;
-    cargarPreguntasDesdeFirebase(iniciarJuego);
-  } else {
-    alert("Por favor, ingresa tu nombre.");
-  }
-}
-
 // Iniciar juego
 function iniciarJuego() {
-  document.getElementById("pantalla-inicial").style.display = "none";
-  document.getElementById("pantalla-juego").style.display = "block";
+  mostrarPantalla("pantalla-juego");
   mostrarPregunta();
 }
 
-// Mostrar pregunta actual
+// Mostrar pregunta
 function mostrarPregunta() {
   const pregunta = preguntas[preguntaActual];
   document.getElementById("pregunta").textContent = pregunta.pregunta;
@@ -102,11 +111,9 @@ function verificarRespuesta(respuestaSeleccionada) {
   }
 }
 
-// Mostrar resultados finales
+// Mostrar resultados
 function mostrarResultados() {
-  document.getElementById("pantalla-juego").style.display = "none";
-  document.getElementById("pantalla-final").style.display = "block";
-
+  mostrarPantalla("pantalla-final");
   document.getElementById("nombre-final").textContent = nombreJugador;
   document.getElementById("puntaje-final").textContent = puntaje;
   document.getElementById("correctas").textContent = respuestasCorrectas;
@@ -116,7 +123,7 @@ function mostrarResultados() {
   enviarGoogleSheets();
 }
 
-// Guardar en Firebase (jugadores)
+// Guardar en Firebase
 function guardarResultadoFirebase() {
   const jugadorRef = firebase.database().ref("jugadores").push();
   jugadorRef.set({
@@ -142,3 +149,4 @@ function enviarGoogleSheets() {
     body: formData
   });
 }
+
