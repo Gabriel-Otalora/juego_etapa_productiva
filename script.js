@@ -55,7 +55,7 @@ function cargarPreguntasDesdeFirebase(callback) {
         [todas[i], todas[j]] = [todas[j], todas[i]];
       }
       preguntas = todas.slice(0, 3);
-      setTimeout(callback, 10); //pequeño delay
+      callback(); 
     })
     .catch(error => {
       console.error("Error al cargar preguntas:", error);
