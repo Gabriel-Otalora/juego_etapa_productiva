@@ -1,52 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🎮 Juego de Preguntas</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego de Preguntas Frecuentes</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="main-layout">
 
     <!-- Pantalla de bienvenida -->
-    <section id="pantalla-inicio">
+    <section id="pantalla-inicio" class="pantalla">
       <div class="columna">
         <div class="cuadro-superior">¡Buena Suerte, Apreciado Aprendiz! 🏆</div>
         <h1>🎓 Bienvenido al Juego de Preguntas</h1>
         <p>Haz clic para leer las instrucciones</p>
         <button onclick="mostrarInstrucciones()">Ver Instrucciones</button>
-        <img src="img/personaje_1.png" class="personaje-img" alt="Personaje de bienvenida" />
+        <img src="img/personaje_1.png" alt="Personaje de bienvenida" class="personaje-img">
       </div>
     </section>
 
-    <!-- Instrucciones -->
-    <section id="pantalla-instrucciones" class="oculto">
+    <!-- Pantalla de instrucciones -->
+    <section id="pantalla-instrucciones" class="pantalla oculto">
       <div class="columna">
         <h2>📋 Instrucciones</h2>
         <ul>
-          <li>🕐 Tienes 60 segundos para responder todas las preguntas.</li>
-          <li>❓ Cada pregunta tiene 10 segundos para responderse.</li>
-          <li>⛔ Si fallas o el tiempo acaba, recibirás retroalimentación.</li>
-          <li>🏅 Al finalizar, verás tu puntaje y certificado.</li>
+          <li>🕐 Tienes <strong>60 segundos</strong> para responder todas las preguntas.</li>
+          <li>⏳ Cada pregunta tiene <strong>10 segundos</strong> para responderse.</li>
+          <li>❌ Si se acaba el tiempo o respondes mal, se mostrará una retroalimentación.</li>
+          <li>🧾 Al finalizar, recibirás un certificado con tu nombre.</li>
         </ul>
         <button onclick="mostrarPantallaNombre()">Continuar</button>
       </div>
     </section>
 
-    <!-- Pantalla para nombre -->
-    <section id="pantalla-nombre" class="oculto">
+    <!-- Pantalla de registro de nombre -->
+    <section id="pantalla-nombre" class="pantalla oculto">
       <div class="columna">
         <h2>👤 Ingresa tu nombre</h2>
-        <input type="text" id="nombre-usuario" placeholder="Tu nombre" />
+        <input type="text" id="nombre-usuario" placeholder="Tu nombre">
         <button onclick="guardarNombre()">Comenzar juego</button>
       </div>
     </section>
 
     <!-- Pantalla de juego -->
-    <section id="pantalla-juego" class="oculto">
+    <section id="pantalla-juego" class="pantalla oculto">
       <div class="barra-top">
-        <span>⏱️ Tiempo total: <span id="tiempo-total">60</span>s</span>
+        <span>⏱️ Total: <span id="tiempo-total">60</span>s</span>
         <span>🎯 Pregunta: <span id="tiempo-pregunta">10</span>s</span>
         <span>⭐ Puntaje: <span id="puntaje">0</span></span>
       </div>
@@ -58,40 +58,39 @@
     </section>
 
     <!-- Pantalla final -->
-    <section id="pantalla-final" class="oculto">
+    <section id="pantalla-final" class="pantalla oculto">
       <div class="columna">
-        <div class="cuadro-superior">¡Felicidades, lo lograste! 🎉</div>
-        <img src="img/personaje_2.png" class="personaje-img" alt="Ganador"/>
+        <div id="cuadro-final" class="cuadro-superior oculto">¡Felicidades, lo lograste! 🎉</div>
+        <img id="personaje-final" src="img/personaje_2.png" alt="Personaje ganador" class="personaje-img oculto">
         <h2>🏁 ¡Juego terminado!</h2>
-        <p>👤 Nombre: <span id="nombre-final"></span></p>
-        <p>✅ Correctas: <span id="correctas"></span></p>
-        <p>❌ Incorrectas: <span id="incorrectas"></span></p>
-        <p>🏆 Puntaje final: <span id="puntaje-final"></span></p>
+        <div id="certificado"></div>
         <button onclick="volverAlInicio()">Volver al inicio</button>
       </div>
     </section>
+
   </div>
-
+  
   <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-  <!-- Configuración Firebase -->
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDFC3lrOErLYnSp9_BPakKGpoFW66W6bK4",
-      authDomain: "juegoetapaproductiva.firebaseapp.com",
-      databaseURL: "https://juegoetapaproductiva-default-rtdb.firebaseio.com",
-      projectId: "juegoetapaproductiva",
-      storageBucket: "juegoetapaproductiva.appspot.com",
-      messagingSenderId: "934327191730",
-      appId: "1:934327191730:web:c1e30ef2bfec9a0444e1ab"
-    };
-    firebase.initializeApp(firebaseConfig);
-  </script>
+<script>
+  // Tu configuración de Firebase 
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFC3lrOErLYnSp9_BPakKGpoFW66W6bK4",
+    authDomain: "juegoetapaproductiva.firebaseapp.com",
+    databaseURL: "https://juegoetapaproductiva-default-rtdb.firebaseio.com",
+    projectId: "juegoetapaproductiva",
+    storageBucket: "juegoetapaproductiva.firebasestorage.app",
+    messagingSenderId: "934327191730",
+    appId: "1:934327191730:web:c1e30ef2bfec9a0444e1ab"
+  };
 
-  <!-- Tu JavaScript -->
-  <script src="script.js"></script>
+  // Inicializa Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+<script src="script.js"></script>
+
 </body>
 </html>
-
