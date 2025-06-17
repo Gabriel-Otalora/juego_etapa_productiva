@@ -18,18 +18,18 @@ let respuestasCorrectas = 0;
 let respuestasIncorrectas = 0;
 let puntaje = 0;
 
-// Mostrar pantallas
+// Pantallas
 function mostrarInstrucciones() {
-  document.getElementById("pantalla-inicio").style.display = "none";
-  document.getElementById("pantalla-instrucciones").style.display = "block";
+  document.getElementById("pantalla-inicio").classList.add("oculto");
+  document.getElementById("pantalla-instrucciones").classList.remove("oculto");
 }
 
 function mostrarPantallaNombre() {
-  document.getElementById("pantalla-instrucciones").style.display = "none";
-  document.getElementById("pantalla-nombre").style.display = "block";
+  document.getElementById("pantalla-instrucciones").classList.add("oculto");
+  document.getElementById("pantalla-nombre").classList.remove("oculto");
 }
 
-// Guardar nombre
+// Nombre
 function guardarNombre() {
   const nombre = document.getElementById("nombre-usuario").value.trim();
   if (nombre !== "") {
@@ -55,7 +55,7 @@ function cargarPreguntasDesdeFirebase(callback) {
         [todas[i], todas[j]] = [todas[j], todas[i]];
       }
       preguntas = todas.slice(0, 3);
-      callback(); 
+      callback();
     })
     .catch(error => {
       console.error("Error al cargar preguntas:", error);
@@ -64,12 +64,12 @@ function cargarPreguntasDesdeFirebase(callback) {
 
 // Iniciar juego
 function iniciarJuego() {
-  document.getElementById("pantalla-nombre").style.display = "none";
-  document.getElementById("pantalla-juego").style.display = "block";
+  document.getElementById("pantalla-nombre").classList.add("oculto");
+  document.getElementById("pantalla-juego").classList.remove("oculto");
   mostrarPregunta();
 }
 
-// Mostrar preguntas
+// Mostrar pregunta
 function mostrarPregunta() {
   const pregunta = preguntas[preguntaActual];
   document.getElementById("pregunta").textContent = pregunta.pregunta;
@@ -103,8 +103,11 @@ function verificarRespuesta(index) {
 
 // Resultados
 function mostrarResultados() {
-  document.getElementById("pantalla-juego").style.display = "none";
-  document.getElementById("pantalla-final").style.display = "block";
+  document.getElementById("pantalla-juego").classList.add("oculto");
+  document.getElementById("pantalla-final").classList.remove("oculto");
+
+  document.getElementById("cuadro-final").classList.remove("oculto");
+  document.getElementById("personaje-final").classList.remove("oculto");
 
   document.getElementById("nombre-final").textContent = nombreJugador;
   document.getElementById("puntaje-final").textContent = puntaje;
@@ -126,6 +129,7 @@ function guardarResultadoFirebase() {
   });
 }
 
+// Enviar a Google Sheets
 function enviarGoogleSheets() {
   const formData = new FormData();
   formData.append("entry.1170332590", nombreJugador);
@@ -140,7 +144,7 @@ function enviarGoogleSheets() {
   });
 }
 
+// Reiniciar
 function volverAlInicio() {
   location.reload();
 }
-
