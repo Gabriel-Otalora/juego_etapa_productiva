@@ -1,189 +1,140 @@
-let preguntas = [
-  {
-    pregunta: "¿Qué es la etapa prodcutiva?",
-    opciones: ["Una etapa de descanso", "Una etapa de estudio", "Una etapa para aplicar conocimientos", "Una etapa de evaluación final"],
-    respuesta: 2,
-    retroalimentacion: "La etapa productiva es para aplicar los conocimientos adquiridos en un entorno real."
-  },
-  {
-    pregunta: "¿Cuánto dura la etapa productiva?",
-    opciones: ["Seis meses", "Depende del programa", "1 semana", "Un semestre y más"],
-    respuesta: 0,
-    retroalimentacion: "La duración es de 6 meses y tienes 2 años para realizarla y culminar."
-  }
-];
+// Inicializa Firebase (reemplaza con tu configuración si es diferente)
+const firebaseConfig = {
+  apiKey: "AIzaSyDFC3lrOErLYnSp9_BPakKGpoFW66W6bK4",
+  authDomain: "juegoetapaproductiva.firebaseapp.com",
+  databaseURL: "https://juegoetapaproductiva-default-rtdb.firebaseio.com",
+  projectId: "juegoetapaproductiva",
+  storageBucket: "juegoetapaproductiva.firebasestorage.app",
+  messagingSenderId: "934327191730",
+  appId: "1:934327191730:web:c1e30ef2bfec9a0444e1ab"
+};
 
-let indicePregunta = 0;
-let puntaje = 0;
+firebase.initializeApp(firebaseConfig);
+
+let nombreJugador = "";
+let preguntas = [];
+let preguntaActual = 0;
 let respuestasCorrectas = 0;
 let respuestasIncorrectas = 0;
-let tiempoTotal = 60;
-let tiempoPregunta = 10;
-let nombreJugador = "";
-let intervalos = [];
+let puntaje = 0;
 
-function mostrarPantalla(id) {
-  document.querySelectorAll(".pantalla").forEach(p => p.classList.add("oculto"));
-  document.getElementById(id).classList.remove("oculto");
+// Cargar preguntas desde Firebase
+function cargarPreguntasDesdeFirebase(callback) {
+  firebase.database().ref("preguntas").once("value")
+    .then(snapshot => {
+      const datos = snapshot.val();
+      if (!datos) {
+        alert("No se encontraron preguntas en la base de datos.");
+        return;
+      }
+
+      const todasPreguntas = Object.values(datos);
+
+      // Mezclar aleatoriamente
+      for (let i = todasPreguntas.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [todasPreguntas[i], todasPreguntas[j]] = [todasPreguntas[j], todasPreguntas[i]];
+      }
+
+      preguntas = todasPreguntas.slice(0, 3);
+      callback(); // Iniciar el juego
+    })
+    .catch(error => {
+      console.error("❌ Error al cargar preguntas:", error);
+      alert("Error al cargar preguntas desde Firebase.");
+    });
 }
 
-function mostrarInstrucciones() {
-  mostrarPantalla("pantalla-instrucciones");
-}
-
-function mostrarPantallaNombre() {
-  mostrarPantalla("pantalla-nombre");
-}
-
+// Guardar nombre y cargar preguntas
 function guardarNombre() {
   const nombre = document.getElementById("nombre-usuario").value.trim();
   if (nombre !== "") {
     nombreJugador = nombre;
-    iniciarJuego();
+    cargarPreguntasDesdeFirebase(iniciarJuego);
   } else {
     alert("Por favor, ingresa tu nombre.");
   }
 }
 
+// Iniciar juego
 function iniciarJuego() {
-  indicePregunta = 0;
-  puntaje = 0;
-  respuestasCorrectas = 0;
-  respuestasIncorrectas = 0;
-  tiempoTotal = 60;
-  tiempoPregunta = 10;
-  document.getElementById("puntaje").textContent = 0;
-  mostrarPantalla("pantalla-juego");
+  document.getElementById("pantalla-inicial").style.display = "none";
+  document.getElementById("pantalla-juego").style.display = "block";
   mostrarPregunta();
-  iniciarTemporizadores();
 }
 
+// Mostrar pregunta actual
 function mostrarPregunta() {
-  const p = preguntas[indicePregunta];
-  document.getElementById("pregunta").textContent = p.pregunta;
+  const pregunta = preguntas[preguntaActual];
+  document.getElementById("pregunta").textContent = pregunta.pregunta;
+  const opciones = document.getElementById("opciones");
+  opciones.innerHTML = "";
 
-  let opcionesHTML = "";
-  p.opciones.forEach((opcion, i) => {
-    opcionesHTML += `<button onclick="responder(${i})">${opcion}</button>`;
+  pregunta.opciones.forEach((opcion, index) => {
+    const boton = document.createElement("button");
+    boton.textContent = opcion;
+    boton.onclick = () => verificarRespuesta(index);
+    opciones.appendChild(boton);
   });
-  document.getElementById("opciones").innerHTML = opcionesHTML;
-  document.getElementById("respuesta").textContent = "";
-  tiempoPregunta = 10;
-  document.getElementById("tiempo-pregunta").textContent = tiempoPregunta;
 }
 
-function responder(seleccion) {
-  const p = preguntas[indicePregunta];
-  if (seleccion === p.respuesta) {
-    document.getElementById("respuesta").textContent = "✅ ¡Respuesta correcta!";
-    puntaje++;
-    respuestasCorrectas++;
+// Verificar respuesta
+function verificarRespuesta(respuestaSeleccionada) {
+  const pregunta = preguntas[preguntaActual];
+
+  if (respuestaSeleccionada === pregunta.respuesta) {
+    puntaje += 1;
+    respuestasCorrectas += 1;
   } else {
-    document.getElementById("respuesta").textContent = "❌ Respuesta incorrecta. " + p.retroalimentacion;
-    respuestasIncorrectas++;
+    respuestasIncorrectas += 1;
+    alert("❌ Incorrecto.\n📌 " + pregunta.retroalimentacion);
   }
-  document.getElementById("puntaje").textContent = puntaje;
-  indicePregunta++;
-  if (indicePregunta < preguntas.length) {
-    setTimeout(mostrarPregunta, 2000);
+
+  preguntaActual += 1;
+  if (preguntaActual < preguntas.length) {
+    mostrarPregunta();
   } else {
-    finalizarJuego();
+    mostrarResultados();
   }
 }
 
-function iniciarTemporizadores() {
-  const totalInterval = setInterval(() => {
-    tiempoTotal--;
-    document.getElementById("tiempo-total").textContent = tiempoTotal;
-    if (tiempoTotal <= 0) {
-      clearInterval(totalInterval);
-      finalizarJuego();
-    }
-  }, 1000);
+// Mostrar resultados finales
+function mostrarResultados() {
+  document.getElementById("pantalla-juego").style.display = "none";
+  document.getElementById("pantalla-final").style.display = "block";
 
-  const preguntaInterval = setInterval(() => {
-    tiempoPregunta--;
-    document.getElementById("tiempo-pregunta").textContent = tiempoPregunta;
-    if (tiempoPregunta <= 0) {
-      respuestasIncorrectas++;
-      document.getElementById("respuesta").textContent = "⏱️ Tiempo agotado.";
-      indicePregunta++;
-      if (indicePregunta < preguntas.length) {
-        setTimeout(mostrarPregunta, 2000);
-        tiempoPregunta = 10;
-      } else {
-        finalizarJuego();
-      }
-    }
-  }, 1000);
+  document.getElementById("nombre-final").textContent = nombreJugador;
+  document.getElementById("puntaje-final").textContent = puntaje;
+  document.getElementById("correctas").textContent = respuestasCorrectas;
+  document.getElementById("incorrectas").textContent = respuestasIncorrectas;
 
-  intervalos.push(totalInterval, preguntaInterval);
+  guardarResultadoFirebase();
+  enviarGoogleSheets();
 }
 
-function finalizarJuego() {
-  intervalos.forEach(clearInterval);
-  mostrarPantalla("pantalla-final");
-
-  const aprobado = respuestasCorrectas > preguntas.length / 2;
-  const cuadroFinal = document.getElementById("cuadro-final");
-  const personajeFinal = document.getElementById("personaje-final");
-
-  if (aprobado) {
-    cuadroFinal.classList.remove("oculto");
-    personajeFinal.classList.remove("oculto");
-  } else {
-    cuadroFinal.classList.add("oculto");
-    personajeFinal.classList.add("oculto");
-  }
-
-  const mensaje = `
-    <h3>📜 Certificado de Participación</h3>
-    <p>Hola <strong>${nombreJugador}</strong>,</p>
-    <p>${aprobado ? "🎉 ¡Aprobaste el juego!" : "😞 No aprobaste esta vez."}</p>
-    <p>✅ Respuestas correctas: ${respuestasCorrectas}</p>
-    <p>❌ Respuestas incorrectas: ${respuestasIncorrectas}</p>
-  `;
-  document.getElementById("certificado").innerHTML = mensaje;
-
-    // 🔥 Guarda el resultado en Firebase y Sheets
-  guardarResultadoEnFirebase();
-  guardarResultadoEnSheets(); 
-
-}
-
-
-function volverAlInicio() {
-  location.reload();
-}
-function guardarResultadoEnFirebase() {
-  const fecha = new Date().toLocaleString();
-
-  firebase.database().ref("jugadores").push({
+// Guardar en Firebase (jugadores)
+function guardarResultadoFirebase() {
+  const jugadorRef = firebase.database().ref("jugadores").push();
+  jugadorRef.set({
     nombre: nombreJugador,
     puntaje: puntaje,
     correctas: respuestasCorrectas,
     incorrectas: respuestasIncorrectas,
-    fecha: fecha
+    fecha: new Date().toLocaleString()
   });
-
-  console.log("Resultado guardado en Firebase");
 }
 
-function guardarResultadoEnSheets() {
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbyjEMvnlC2bJ8dSjSfoVE7ClHM1IyE39SQv_CDu_S81pTNk_tWyrFPi-ouzQM2bSTxQog/exec';
-  
+// Enviar a Google Sheets
+function enviarGoogleSheets() {
   const formData = new FormData();
   formData.append("entry.1170332590", nombreJugador);
-  formData.append("entry.1684532845", puntaje);
-  formData.append("entry.1369388644", respuestasCorrectas);
+  formData.append("entry.1369388644", puntaje);
+  formData.append("entry.1684532845", respuestasCorrectas);
   formData.append("entry.12071704", respuestasIncorrectas);
-  //formData.append("entry.FECHAXXXXXXXX", new Date().toLocaleString()); //Para implementar fecha 
 
-  fetch(scriptURL, {
-    method: 'POST',
-    mode: 'no-cors',
+  fetch("https://script.google.com/macros/s/AKfycbyjEMvnlC2bJ8dSjSfoVE7ClHM1IyE39SQv_CDu_S81pTNk_tWyrFPi-ouzQM2bSTxQog/exec", {
+    method: "POST",
+    mode: "no-cors",
     body: formData
-  })
-  .then(() => console.log("✅ Guardado en Google Sheets correctamente"))
-  .catch(error => console.error("❌ Error al guardar en Google Sheets:", error));
+  });
 }
