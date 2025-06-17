@@ -5,10 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Juego de Preguntas Frecuentes</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .oculto { display: none; }
+    .personaje-img { width: 150px; margin-top: 20px; }
+    .cuadro-superior { background: #e0e0e0; padding: 10px; font-weight: bold; border-radius: 10px; }
+    .pantalla { text-align: center; padding: 20px; }
+    .barra-top { display: flex; justify-content: space-around; background: #f0f0f0; padding: 10px; margin-bottom: 20px; }
+    #opciones button { display: block; margin: 10px auto; padding: 10px; }
+  </style>
 </head>
 <body>
   <div class="main-layout">
-
     <!-- Pantalla de bienvenida -->
     <section id="pantalla-inicio" class="pantalla">
       <div class="columna">
@@ -34,7 +41,7 @@
       </div>
     </section>
 
-    <!-- Pantalla de registro de nombre -->
+    <!-- Pantalla de nombre -->
     <section id="pantalla-nombre" class="pantalla oculto">
       <div class="columna">
         <h2>👤 Ingresa tu nombre</h2>
@@ -63,35 +70,31 @@
         <div id="cuadro-final" class="cuadro-superior oculto">¡Felicidades, lo lograste! 🎉</div>
         <img id="personaje-final" src="img/personaje_2.png" alt="Personaje ganador" class="personaje-img oculto">
         <h2>🏁 ¡Juego terminado!</h2>
-        <div id="certificado"></div>
+        <p>Nombre: <span id="nombre-final"></span></p>
+        <p>Puntaje: <span id="puntaje-final"></span></p>
+        <p>Correctas: <span id="correctas"></span> | Incorrectas: <span id="incorrectas"></span></p>
         <button onclick="volverAlInicio()">Volver al inicio</button>
       </div>
     </section>
-
   </div>
-  
+
   <!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-<script>
-  // Tu configuración de Firebase 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDFC3lrOErLYnSp9_BPakKGpoFW66W6bK4",
-    authDomain: "juegoetapaproductiva.firebaseapp.com",
-    databaseURL: "https://juegoetapaproductiva-default-rtdb.firebaseio.com",
-    projectId: "juegoetapaproductiva",
-    storageBucket: "juegoetapaproductiva.firebasestorage.app",
-    messagingSenderId: "934327191730",
-    appId: "1:934327191730:web:c1e30ef2bfec9a0444e1ab"
-  };
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFC3lrOErLYnSp9_BPakKGpoFW66W6bK4",
+      authDomain: "juegoetapaproductiva.firebaseapp.com",
+      databaseURL: "https://juegoetapaproductiva-default-rtdb.firebaseio.com",
+      projectId: "juegoetapaproductiva",
+      storageBucket: "juegoetapaproductiva.appspot.com",
+      messagingSenderId: "934327191730",
+      appId: "1:934327191730:web:c1e30ef2bfec9a0444e1ab"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
 
-  // Inicializa Firebase
-  firebase.initializeApp(firebaseConfig);
-</script>
-
-<script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
 </html>
-
