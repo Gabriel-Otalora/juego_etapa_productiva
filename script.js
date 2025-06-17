@@ -45,6 +45,10 @@ function cargarPreguntasDesdeFirebase(callback) {
     });
 }
 
+function mostrarInstrucciones() {
+  mostrarPantalla("pantalla-instrucciones");
+}
+
 // Guardar nombre y cargar preguntas
 function guardarNombre() {
   const nombre = document.getElementById("nombre-usuario").value.trim();
