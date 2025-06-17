@@ -3,20 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Juego de Preguntas Frecuentes</title>
+  <title>Juego de Preguntas</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    .oculto { display: none; }
-    .personaje-img { width: 150px; margin-top: 20px; }
-    .cuadro-superior { background: #e0e0e0; padding: 10px; font-weight: bold; border-radius: 10px; }
-    .pantalla { text-align: center; padding: 20px; }
-    .barra-top { display: flex; justify-content: space-around; background: #f0f0f0; padding: 10px; margin-bottom: 20px; }
-    #opciones button { display: block; margin: 10px auto; padding: 10px; }
-  </style>
+  <link rel="icon" href="data:,"> <!-- Quita error favicon -->
 </head>
 <body>
   <div class="main-layout">
-    <!-- Pantalla de bienvenida -->
+
+    <!-- Pantalla de inicio -->
     <section id="pantalla-inicio" class="pantalla">
       <div class="columna">
         <div class="cuadro-superior">¡Buena Suerte, Apreciado Aprendiz! 🏆</div>
@@ -27,21 +21,21 @@
       </div>
     </section>
 
-    <!-- Pantalla de instrucciones -->
+    <!-- Instrucciones -->
     <section id="pantalla-instrucciones" class="pantalla oculto">
       <div class="columna">
         <h2>📋 Instrucciones</h2>
         <ul>
-          <li>🕐 Tienes <strong>60 segundos</strong> para responder todas las preguntas.</li>
-          <li>⏳ Cada pregunta tiene <strong>10 segundos</strong> para responderse.</li>
-          <li>❌ Si se acaba el tiempo o respondes mal, se mostrará una retroalimentación.</li>
-          <li>🧾 Al finalizar, recibirás un certificado con tu nombre.</li>
+          <li>🕐 Tienes <strong>60 segundos</strong> en total.</li>
+          <li>⏳ Cada pregunta tiene <strong>10 segundos</strong>.</li>
+          <li>❌ Si fallas, verás una retroalimentación.</li>
+          <li>📜 Recibirás un resumen final con tus resultados.</li>
         </ul>
         <button onclick="mostrarPantallaNombre()">Continuar</button>
       </div>
     </section>
 
-    <!-- Pantalla de nombre -->
+    <!-- Nombre -->
     <section id="pantalla-nombre" class="pantalla oculto">
       <div class="columna">
         <h2>👤 Ingresa tu nombre</h2>
@@ -50,7 +44,7 @@
       </div>
     </section>
 
-    <!-- Pantalla de juego -->
+    <!-- Juego -->
     <section id="pantalla-juego" class="pantalla oculto">
       <div class="barra-top">
         <span>⏱️ Total: <span id="tiempo-total">60</span>s</span>
@@ -60,22 +54,26 @@
       <div class="contenido-pregunta">
         <h2 id="pregunta">Pregunta aquí</h2>
         <div id="opciones"></div>
-        <p id="retroalimentacion"></p>
+        <p id="respuesta"></p>
       </div>
     </section>
 
-    <!-- Pantalla final -->
+    <!-- Final -->
     <section id="pantalla-final" class="pantalla oculto">
       <div class="columna">
         <div id="cuadro-final" class="cuadro-superior oculto">¡Felicidades, lo lograste! 🎉</div>
         <img id="personaje-final" src="img/personaje_2.png" alt="Personaje ganador" class="personaje-img oculto">
         <h2>🏁 ¡Juego terminado!</h2>
-        <p>Nombre: <span id="nombre-final"></span></p>
-        <p>Puntaje: <span id="puntaje-final"></span></p>
-        <p>Correctas: <span id="correctas"></span> | Incorrectas: <span id="incorrectas"></span></p>
+        <div id="certificado">
+          <p>Nombre: <span id="nombre-final"></span></p>
+          <p>Puntaje: <span id="puntaje-final"></span></p>
+          <p>Correctas: <span id="correctas"></span></p>
+          <p>Incorrectas: <span id="incorrectas"></span></p>
+        </div>
         <button onclick="volverAlInicio()">Volver al inicio</button>
       </div>
     </section>
+
   </div>
 
   <!-- Firebase -->
