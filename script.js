@@ -1,15 +1,3 @@
-// Inicializa Firebase (usa tu configuración)
-const firebaseConfig = {
-  apiKey: "AIzaSyDFC3lrOErLYnSp9_BPakKGpoFW66W6bK4",
-  authDomain: "juegoetapaproductiva.firebaseapp.com",
-  databaseURL: "https://juegoetapaproductiva-default-rtdb.firebaseio.com",
-  projectId: "juegoetapaproductiva",
-  storageBucket: "juegoetapaproductiva.appspot.com",
-  messagingSenderId: "934327191730",
-  appId: "1:934327191730:web:c1e30ef2bfec9a0444e1ab"
-};
-firebase.initializeApp(firebaseConfig);
-
 // Variables globales
 let nombreJugador = "";
 let preguntas = [];
@@ -19,20 +7,21 @@ let respuestasIncorrectas = 0;
 let puntaje = 0;
 
 // Mostrar pantallas
-function mostrarPantalla(id) {
-  document.querySelectorAll(".pantalla").forEach(p => p.classList.add("oculto"));
-  document.getElementById(id).classList.remove("oculto");
-}
-
 function mostrarInstrucciones() {
-  mostrarPantalla("pantalla-instrucciones");
+  document.getElementById("pantalla-inicio").classList.add("oculto");
+  document.getElementById("pantalla-instrucciones").classList.remove("oculto");
 }
 
 function mostrarPantallaNombre() {
-  mostrarPantalla("pantalla-nombre");
+  document.getElementById("pantalla-instrucciones").classList.add("oculto");
+  document.getElementById("pantalla-nombre").classList.remove("oculto");
 }
 
-// Guardar nombre y cargar preguntas desde Firebase
+function volverAlInicio() {
+  location.reload();
+}
+
+// Guardar nombre y cargar preguntas
 function guardarNombre() {
   const nombre = document.getElementById("nombre-usuario").value.trim();
   if (nombre !== "") {
@@ -43,7 +32,7 @@ function guardarNombre() {
   }
 }
 
-// Cargar preguntas desde Firebase
+// Cargar preguntas
 function cargarPreguntasDesdeFirebase(callback) {
   firebase.database().ref("preguntas").once("value")
     .then(snapshot => {
@@ -52,58 +41,49 @@ function cargarPreguntasDesdeFirebase(callback) {
         alert("No se encontraron preguntas en la base de datos.");
         return;
       }
-
-      const todasPreguntas = Object.values(datos);
-
-      // Mezclar aleatoriamente
-      for (let i = todasPreguntas.length - 1; i > 0; i--) {
+      const todas = Object.values(datos);
+      for (let i = todas.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [todasPreguntas[i], todasPreguntas[j]] = [todasPreguntas[j], todasPreguntas[i]];
+        [todas[i], todas[j]] = [todas[j], todas[i]];
       }
-
-      preguntas = todasPreguntas.slice(0, 3);
-      callback(); // Inicia el juego
+      preguntas = todas.slice(0, 3);
+      callback();
     })
     .catch(error => {
-      console.error("❌ Error al cargar preguntas:", error);
-      alert("Error al cargar preguntas desde Firebase.");
+      console.error("Error al cargar preguntas:", error);
+      alert("Error al cargar preguntas.");
     });
 }
 
-// Iniciar juego
 function iniciarJuego() {
-  mostrarPantalla("pantalla-juego");
+  document.getElementById("pantalla-nombre").classList.add("oculto");
+  document.getElementById("pantalla-juego").classList.remove("oculto");
   mostrarPregunta();
 }
 
-// Mostrar pregunta
 function mostrarPregunta() {
   const pregunta = preguntas[preguntaActual];
   document.getElementById("pregunta").textContent = pregunta.pregunta;
   const opciones = document.getElementById("opciones");
   opciones.innerHTML = "";
-
   pregunta.opciones.forEach((opcion, index) => {
-    const boton = document.createElement("button");
-    boton.textContent = opcion;
-    boton.onclick = () => verificarRespuesta(index);
-    opciones.appendChild(boton);
+    const btn = document.createElement("button");
+    btn.textContent = opcion;
+    btn.onclick = () => verificarRespuesta(index);
+    opciones.appendChild(btn);
   });
 }
 
-// Verificar respuesta
 function verificarRespuesta(respuestaSeleccionada) {
   const pregunta = preguntas[preguntaActual];
-
   if (respuestaSeleccionada === pregunta.respuesta) {
-    puntaje += 1;
-    respuestasCorrectas += 1;
+    puntaje++;
+    respuestasCorrectas++;
   } else {
-    respuestasIncorrectas += 1;
+    respuestasIncorrectas++;
     alert("❌ Incorrecto.\n📌 " + pregunta.retroalimentacion);
   }
-
-  preguntaActual += 1;
+  preguntaActual++;
   if (preguntaActual < preguntas.length) {
     mostrarPregunta();
   } else {
@@ -111,22 +91,22 @@ function verificarRespuesta(respuestaSeleccionada) {
   }
 }
 
-// Mostrar resultados
 function mostrarResultados() {
-  mostrarPantalla("pantalla-final");
+  document.getElementById("pantalla-juego").classList.add("oculto");
+  document.getElementById("pantalla-final").classList.remove("oculto");
+  document.getElementById("cuadro-final").classList.remove("oculto");
+  document.getElementById("personaje-final").classList.remove("oculto");
   document.getElementById("nombre-final").textContent = nombreJugador;
   document.getElementById("puntaje-final").textContent = puntaje;
   document.getElementById("correctas").textContent = respuestasCorrectas;
   document.getElementById("incorrectas").textContent = respuestasIncorrectas;
-
   guardarResultadoFirebase();
   enviarGoogleSheets();
 }
 
-// Guardar en Firebase
 function guardarResultadoFirebase() {
-  const jugadorRef = firebase.database().ref("jugadores").push();
-  jugadorRef.set({
+  const ref = firebase.database().ref("jugadores").push();
+  ref.set({
     nombre: nombreJugador,
     puntaje: puntaje,
     correctas: respuestasCorrectas,
@@ -135,14 +115,12 @@ function guardarResultadoFirebase() {
   });
 }
 
-// Enviar a Google Sheets
 function enviarGoogleSheets() {
   const formData = new FormData();
   formData.append("entry.1170332590", nombreJugador);
   formData.append("entry.1369388644", puntaje);
   formData.append("entry.1684532845", respuestasCorrectas);
   formData.append("entry.12071704", respuestasIncorrectas);
-
   fetch("https://script.google.com/macros/s/AKfycbyjEMvnlC2bJ8dSjSfoVE7ClHM1IyE39SQv_CDu_S81pTNk_tWyrFPi-ouzQM2bSTxQog/exec", {
     method: "POST",
     mode: "no-cors",
