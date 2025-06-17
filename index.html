@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Juego de Preguntas</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Juego de Preguntas Frecuentes</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="data:,"> <!-- Quita error favicon -->
 </head>
 <body>
   <div class="main-layout">
 
-    <!-- Pantalla de inicio -->
+    <!-- Pantalla de bienvenida -->
     <section id="pantalla-inicio" class="pantalla">
       <div class="columna">
         <div class="cuadro-superior">¡Buena Suerte, Apreciado Aprendiz! 🏆</div>
@@ -26,20 +25,20 @@
       <div class="columna">
         <h2>📋 Instrucciones</h2>
         <ul>
-          <li>🕐 Tienes <strong>60 segundos</strong> en total.</li>
-          <li>⏳ Cada pregunta tiene <strong>10 segundos</strong>.</li>
-          <li>❌ Si fallas, verás una retroalimentación.</li>
-          <li>📜 Recibirás un resumen final con tus resultados.</li>
+          <li>🕐 Tienes <strong>60 segundos</strong> para responder todas las preguntas.</li>
+          <li>⏳ Cada pregunta tiene <strong>10 segundos</strong> para responderse.</li>
+          <li>❌ Si se acaba el tiempo o respondes mal, se mostrará una retroalimentación.</li>
+          <li>🧾 Al finalizar, recibirás un certificado con tu nombre.</li>
         </ul>
         <button onclick="mostrarPantallaNombre()">Continuar</button>
       </div>
     </section>
 
-    <!-- Nombre -->
+    <!-- Pantalla de nombre -->
     <section id="pantalla-nombre" class="pantalla oculto">
       <div class="columna">
         <h2>👤 Ingresa tu nombre</h2>
-        <input type="text" id="nombre-usuario" placeholder="Tu nombre">
+        <input type="text" id="nombre-usuario" placeholder="Tu nombre" />
         <button onclick="guardarNombre()">Comenzar juego</button>
       </div>
     </section>
@@ -58,18 +57,17 @@
       </div>
     </section>
 
-    <!-- Final -->
+    <!-- Pantalla final -->
     <section id="pantalla-final" class="pantalla oculto">
       <div class="columna">
-        <div id="cuadro-final" class="cuadro-superior oculto">¡Felicidades, lo lograste! 🎉</div>
-        <img id="personaje-final" src="img/personaje_2.png" alt="Personaje ganador" class="personaje-img oculto">
+        <div id="cuadro-final" class="cuadro-superior">¡Felicidades, lo lograste! 🎉</div>
+        <img id="personaje-final" src="img/personaje_2.png" alt="Personaje ganador" class="personaje-img">
         <h2>🏁 ¡Juego terminado!</h2>
-        <div id="certificado">
-          <p>Nombre: <span id="nombre-final"></span></p>
-          <p>Puntaje: <span id="puntaje-final"></span></p>
-          <p>Correctas: <span id="correctas"></span></p>
-          <p>Incorrectas: <span id="incorrectas"></span></p>
-        </div>
+        <p>👤 Nombre: <strong id="nombre-final"></strong></p>
+        <p>✅ Respuestas correctas: <strong id="correctas"></strong></p>
+        <p>❌ Respuestas incorrectas: <strong id="incorrectas"></strong></p>
+        <p>⭐ Puntaje final: <strong id="puntaje-final"></strong></p>
+        <div id="certificado"></div>
         <button onclick="volverAlInicio()">Volver al inicio</button>
       </div>
     </section>
@@ -79,6 +77,8 @@
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+  <!-- Script principal -->
   <script src="script.js"></script>
 </body>
 </html>
