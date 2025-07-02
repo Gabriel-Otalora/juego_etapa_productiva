@@ -5,6 +5,9 @@ let preguntaActual = 0;
 let respuestasCorrectas = 0;
 let respuestasIncorrectas = 0;
 let puntaje = 0;
+let tiempoTotal = 60;
+let tiempoPregunta = 10;
+let intervaloTotal, intervaloPregunta;
 
 function mostrarInstrucciones() {
   document.getElementById("pantalla-inicio").style.display = "none";
@@ -63,7 +66,31 @@ function cargarPreguntasDesdeFirebase(callback) {
 function iniciarJuego() {
   document.getElementById("pantalla-nombre").style.display = "none";
   document.getElementById("pantalla-juego").style.display = "block";
+  document.getElementById("puntaje").textContent = puntaje;
+  iniciarTemporizadores();
   mostrarPregunta();
+}
+
+function iniciarTemporizadores() {
+  intervaloTotal = setInterval(() => {
+    tiempoTotal--;
+    document.getElementById("tiempo-total").textContent = tiempoTotal;
+    if (tiempoTotal <= 0) {
+      clearInterval(intervaloTotal);
+      clearInterval(intervaloPregunta);
+      finalizarJuego();
+    }
+  }, 1000);
+
+  intervaloPregunta = setInterval(() => {
+    tiempoPregunta--;
+    document.getElementById("tiempo-pregunta").textContent = tiempoPregunta;
+    if (tiempoPregunta <= 0) {
+      respuestasIncorrectas++;
+      mostrarRetroalimentacion("⏱️ Tiempo agotado.");
+      avanzarPregunta();
+    }
+  }, 1000);
 }
 
 function mostrarPregunta() {
@@ -71,35 +98,59 @@ function mostrarPregunta() {
   document.getElementById("pregunta").textContent = pregunta.pregunta;
   const opciones = document.getElementById("opciones");
   opciones.innerHTML = "";
-
   pregunta.opciones.forEach((opcion, index) => {
     const boton = document.createElement("button");
     boton.textContent = opcion;
     boton.onclick = () => verificarRespuesta(index);
     opciones.appendChild(boton);
   });
+  document.getElementById("respuesta").textContent = "";
+  tiempoPregunta = 10;
+  document.getElementById("tiempo-pregunta").textContent = tiempoPregunta;
 }
 
 function verificarRespuesta(respuestaSeleccionada) {
   const pregunta = preguntas[preguntaActual];
-
   if (respuestaSeleccionada === pregunta.respuesta) {
-    puntaje += 1;
-    respuestasCorrectas += 1;
+    puntaje++;
+    respuestasCorrectas++;
+    mostrarRetroalimentacion("✅ ¡Respuesta correcta!");
   } else {
-    respuestasIncorrectas += 1;
-    alert("❌ Incorrecto.\n📌 " + pregunta.retroalimentacion);
+    respuestasIncorrectas++;
+    mostrarRetroalimentacion("❌ Respuesta incorrecta. " + pregunta.retroalimentacion);
   }
-
-  preguntaActual += 1;
-  if (preguntaActual < preguntas.length) {
-    mostrarPregunta();
-  } else {
-    mostrarResultados();
-  }
+  document.getElementById("puntaje").textContent = puntaje;
+  avanzarPregunta();
 }
 
-function mostrarResultados() {
+function mostrarRetroalimentacion(texto) {
+  document.getElementById("respuesta").textContent = texto;
+}
+
+function avanzarPregunta() {
+  clearInterval(intervaloPregunta);
+  setTimeout(() => {
+    preguntaActual++;
+    if (preguntaActual < preguntas.length) {
+      mostrarPregunta();
+      intervaloPregunta = setInterval(() => {
+        tiempoPregunta--;
+        document.getElementById("tiempo-pregunta").textContent = tiempoPregunta;
+        if (tiempoPregunta <= 0) {
+          respuestasIncorrectas++;
+          mostrarRetroalimentacion("⏱️ Tiempo agotado.");
+          avanzarPregunta();
+        }
+      }, 1000);
+    } else {
+      finalizarJuego();
+    }
+  }, 2000);
+}
+
+function finalizarJuego() {
+  clearInterval(intervaloTotal);
+  clearInterval(intervaloPregunta);
   document.getElementById("pantalla-juego").style.display = "none";
   document.getElementById("pantalla-final").style.display = "block";
 
@@ -142,4 +193,3 @@ function enviarGoogleSheets() {
 function volverAlInicio() {
   location.reload();
 }
-
