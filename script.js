@@ -159,6 +159,7 @@ function finalizarJuego() {
 
   guardarResultadoFirebase();
   enviarGoogleSheets();
+  enviarCertificadoPorCorreo(); 
 }
 
 function guardarResultadoFirebase() {
@@ -189,6 +190,23 @@ function enviarGoogleSheets() {
     body: formData
   });
 }
+
+function enviarCertificadoPorCorreo() {
+  const formData = new FormData();
+  formData.append("entry.1170332590", nombreJugador);
+  formData.append("entry.1406171993", numeroFicha);
+  formData.append("entry.2108813296", correoUsuario);
+  formData.append("entry.1684532845", puntaje);
+  formData.append("entry.1369388644", respuestasCorrectas);
+  formData.append("entry.12071704", respuestasIncorrectas);
+
+  fetch("https://script.google.com/macros/s/AKfycbySla4pKm84iopmUdMLUW5JbCpP8J5aUFOCJAkEMXKE0cPOolwpj0DfUNFXMkjhl2zjTA/exec", {
+    method: "POST",
+    mode: "no-cors",
+    body: formData
+  });
+}
+
 
 function volverAlInicio() {
   location.reload();
