@@ -1,5 +1,6 @@
 let nombreJugador = "";
 let numeroFicha = "";
+let correoUsuario = "";
 let preguntas = [];
 let preguntaActual = 0;
 let respuestasCorrectas = 0;
@@ -9,6 +10,7 @@ let tiempoTotal = 60;
 let tiempoPregunta = 10;
 let intervaloTotal, intervaloPregunta;
 
+// Mostrar pantallas
 function mostrarInstrucciones() {
   document.getElementById("pantalla-inicio").style.display = "none";
   document.getElementById("pantalla-instrucciones").style.display = "block";
@@ -22,21 +24,34 @@ function mostrarPantallaNombre() {
 function guardarNombre() {
   const nombre = document.getElementById("nombre-usuario").value.trim();
   const ficha = document.getElementById("numero-ficha").value.trim();
+  const correo = document.getElementById("correo-usuario").value.trim();
   const autorizacion = document.getElementById("autorizacion").checked;
 
-  if (nombre === "" || ficha === "") {
-    alert("Por favor, completa tu nombre y número de ficha.");
+  if (!nombre || !ficha || !correo) {
+    alert("Por favor, completa todos los campos.");
     return;
   }
-
   if (!autorizacion) {
-    alert("Debes autorizar el tratamiento de datos personales para continuar.");
+    alert("Debes autorizar el tratamiento de datos personales.");
     return;
   }
 
   nombreJugador = nombre;
   numeroFicha = ficha;
-  cargarPreguntasDesdeFirebase(iniciarJuego);
+  correoUsuario = correo;
+
+  cargarPreguntasDesdeFirebase(() => {
+    document.getElementById("pantalla-nombre").style.display = "none";
+    document.getElementById("pantalla-temas").style.display = "block";
+  });
+}
+
+function mostrarPantallaJuego() {
+  document.getElementById("pantalla-temas").style.display = "none";
+  document.getElementById("pantalla-juego").style.display = "block";
+  document.getElementById("puntaje").textContent = puntaje;
+  iniciarTemporizadores();
+  mostrarPregunta();
 }
 
 function cargarPreguntasDesdeFirebase(callback) {
@@ -44,31 +59,20 @@ function cargarPreguntasDesdeFirebase(callback) {
     .then(snapshot => {
       const datos = snapshot.val();
       if (!datos) {
-        alert("No se encontraron preguntas.");
+        alert("No hay preguntas disponibles.");
         return;
       }
-
-      const todasPreguntas = Object.values(datos);
-      for (let i = todasPreguntas.length - 1; i > 0; i--) {
+      const todas = Object.values(datos);
+      for (let i = todas.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [todasPreguntas[i], todasPreguntas[j]] = [todasPreguntas[j], todasPreguntas[i]];
+        [todas[i], todas[j]] = [todas[j], todas[i]];
       }
-
-      preguntas = todasPreguntas.slice(0, 3);
+      preguntas = todas.slice(0, 3);
       callback();
     })
     .catch(error => {
-      console.error("❌ Error al cargar preguntas:", error);
-      alert("Error al cargar preguntas desde Firebase.");
+      console.error("Error cargando preguntas:", error);
     });
-}
-
-function iniciarJuego() {
-  document.getElementById("pantalla-nombre").style.display = "none";
-  document.getElementById("pantalla-juego").style.display = "block";
-  document.getElementById("puntaje").textContent = puntaje;
-  iniciarTemporizadores();
-  mostrarPregunta();
 }
 
 function iniciarTemporizadores() {
@@ -98,26 +102,28 @@ function mostrarPregunta() {
   document.getElementById("pregunta").textContent = pregunta.pregunta;
   const opciones = document.getElementById("opciones");
   opciones.innerHTML = "";
+
   pregunta.opciones.forEach((opcion, index) => {
     const boton = document.createElement("button");
     boton.textContent = opcion;
     boton.onclick = () => verificarRespuesta(index);
     opciones.appendChild(boton);
   });
+
   document.getElementById("respuesta").textContent = "";
-  tiempoPregunta = 10;
-  document.getElementById("tiempo-pregunta").textContent = tiempoPregunta;
+  document.getElementById("tiempo-pregunta").textContent = tiempoPregunta = 10;
+  document.getElementById("progreso-pregunta").textContent = preguntaActual + 1;
 }
 
-function verificarRespuesta(respuestaSeleccionada) {
+function verificarRespuesta(index) {
   const pregunta = preguntas[preguntaActual];
-  if (respuestaSeleccionada === pregunta.respuesta) {
+  if (index === pregunta.respuesta) {
     puntaje++;
     respuestasCorrectas++;
     mostrarRetroalimentacion("✅ ¡Respuesta correcta!");
   } else {
     respuestasIncorrectas++;
-    mostrarRetroalimentacion("❌ Respuesta incorrecta. " + pregunta.retroalimentacion);
+    mostrarRetroalimentacion("❌ Incorrecta. " + pregunta.retroalimentacion);
   }
   document.getElementById("puntaje").textContent = puntaje;
   avanzarPregunta();
@@ -133,15 +139,7 @@ function avanzarPregunta() {
     preguntaActual++;
     if (preguntaActual < preguntas.length) {
       mostrarPregunta();
-      intervaloPregunta = setInterval(() => {
-        tiempoPregunta--;
-        document.getElementById("tiempo-pregunta").textContent = tiempoPregunta;
-        if (tiempoPregunta <= 0) {
-          respuestasIncorrectas++;
-          mostrarRetroalimentacion("⏱️ Tiempo agotado.");
-          avanzarPregunta();
-        }
-      }, 1000);
+      iniciarTemporizadores(); // reinicia solo pregunta
     } else {
       finalizarJuego();
     }
@@ -168,6 +166,7 @@ function guardarResultadoFirebase() {
   jugadorRef.set({
     nombre: nombreJugador,
     ficha: numeroFicha,
+    correo: correoUsuario,
     puntaje: puntaje,
     correctas: respuestasCorrectas,
     incorrectas: respuestasIncorrectas,
@@ -181,7 +180,8 @@ function enviarGoogleSheets() {
   formData.append("entry.1369388644", puntaje);
   formData.append("entry.1684532845", respuestasCorrectas);
   formData.append("entry.12071704", respuestasIncorrectas);
-  formData.append("entry.9876543210", numeroFicha); // Ajusta el entry si lo agregas a Sheets
+  formData.append("entry.9876543210", numeroFicha);
+  formData.append("entry.1357911131", correoUsuario); // <-- reemplaza con tu ID real
 
   fetch("https://script.google.com/macros/s/AKfycbyjEMvnlC2bJ8dSjSfoVE7ClHM1IyE39SQv_CDu_S81pTNk_tWyrFPi-ouzQM2bSTxQog/exec", {
     method: "POST",
@@ -192,4 +192,4 @@ function enviarGoogleSheets() {
 
 function volverAlInicio() {
   location.reload();
-
+}
