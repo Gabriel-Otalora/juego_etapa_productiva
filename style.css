@@ -26,6 +26,10 @@ body {
   display: block;
 }
 
+.oculto {
+  display: none !important;
+}
+
 .columna {
   background: rgba(0, 0, 0, 0.8);
   border-radius: 16px;
