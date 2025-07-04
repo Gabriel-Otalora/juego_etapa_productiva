@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🎮 Juego de Preguntas</title>
+  <title>🎮 Juego de Preguntas - Etapa Productiva</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -40,20 +40,33 @@
         <h2>👤 Registro del jugador</h2>
         <input type="text" id="nombre-usuario" placeholder="Tu nombre completo" required />
         <input type="text" id="numero-ficha" placeholder="No. Ficha" required />
+        <input type="email" id="correo-usuario" placeholder="Tu correo electrónico" required />
         <label style="font-size: 14px; display: block; margin-top: 10px;">
           <input type="checkbox" id="autorizacion" required />
           Autorizo el <a href="https://tusitio.com/politica-datos" target="_blank">tratamiento de mis datos personales</a>
         </label>
-        <button onclick="guardarNombre()">Comenzar juego</button>
+        <button onclick="guardarNombre()">Continuar</button>
+      </div>
+    </section>
+
+    <!-- Pantalla intermedia de temas -->
+    <section id="pantalla-temas" class="pantalla oculto">
+      <div class="columna">
+        <h2>📚 ¿Qué aprenderás en este juego?</h2>
+        <p><strong>🧠 Preguntas generales:</strong> Qué es la etapa productiva, duración y propósito.</p>
+        <p><strong>📘 Tema 1:</strong> Normatividad, derechos y deberes del aprendiz.</p>
+        <p><strong>📗 Tema 2:</strong> Evaluación y desempeño en el entorno productivo.</p>
+        <button onclick="mostrarPantallaJuego()">Estoy listo, comenzar</button>
       </div>
     </section>
 
     <!-- Pantalla del juego -->
     <section id="pantalla-juego" class="pantalla oculto">
       <div class="barra-top">
-        <span>⏱️ Tiempo total: <span id="tiempo-total">60</span>s</span>
+        <span>⏱️ Total: <span id="tiempo-total">60</span>s</span>
         <span>🎯 Pregunta: <span id="tiempo-pregunta">10</span>s</span>
         <span>⭐ Puntaje: <span id="puntaje">0</span></span>
+        <span>📊 Progreso: <span id="progreso-pregunta">1</span>/3</span>
       </div>
       <div class="contenido-pregunta">
         <h2 id="pregunta">Pregunta aquí</h2>
