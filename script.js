@@ -175,7 +175,7 @@ function guardarResultadoFirebase() {
   });
 }
 
-function enviarGoogleSheets() {
+//function enviarGoogleSheets() {
   const formData = new FormData();
   formData.append("entry.1170332590", nombreJugador);
   formData.append("entry.1406171993", numeroFicha);
