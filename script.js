@@ -12,8 +12,8 @@ let intervaloTotal, intervaloPregunta;
 
 // Mostrar pantallas
 function mostrarInstrucciones() {
-  document.getElementById("pantalla-inicio").classList.add("oculto");
-  document.getElementById("pantalla-instrucciones").classList.remove("oculto");
+  document.getElementById("pantalla-inicio").style.display = "none";
+  document.getElementById("pantalla-instrucciones").style.display = "block";
 }
 
 function mostrarPantallaNombre() {
