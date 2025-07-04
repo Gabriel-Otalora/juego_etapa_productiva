@@ -12,13 +12,13 @@ let intervaloTotal, intervaloPregunta;
 
 // Mostrar pantallas
 function mostrarInstrucciones() {
-  document.getElementById("pantalla-inicio").style.display = "none";
-  document.getElementById("pantalla-instrucciones").style.display = "block";
+  document.getElementById("pantalla-inicio").classList.add("oculto");
+  document.getElementById("pantalla-instrucciones").classList.remove("oculto");
 }
 
 function mostrarPantallaNombre() {
-  document.getElementById("pantalla-instrucciones").style.display = "none";
-  document.getElementById("pantalla-nombre").style.display = "block";
+  document.getElementById("pantalla-instrucciones").classList.add("oculto");
+  document.getElementById("pantalla-nombre").classList.remove("oculto");
 }
 
 function guardarNombre() {
@@ -41,14 +41,14 @@ function guardarNombre() {
   correoUsuario = correo;
 
   cargarPreguntasDesdeFirebase(() => {
-    document.getElementById("pantalla-nombre").style.display = "none";
-    document.getElementById("pantalla-temas").style.display = "block";
+    document.getElementById("pantalla-nombre").classList.add("oculto");
+    document.getElementById("pantalla-temas").classList.remove("oculto");
   });
 }
 
 function mostrarPantallaJuego() {
-  document.getElementById("pantalla-temas").style.display = "none";
-  document.getElementById("pantalla-juego").style.display = "block";
+  document.getElementById("pantalla-temas").classList.add("oculto");
+  document.getElementById("pantalla-juego").classList.remove("oculto");
   document.getElementById("puntaje").textContent = puntaje;
   iniciarTemporizadores();
   mostrarPregunta();
@@ -149,8 +149,8 @@ function avanzarPregunta() {
 function finalizarJuego() {
   clearInterval(intervaloTotal);
   clearInterval(intervaloPregunta);
-  document.getElementById("pantalla-juego").style.display = "none";
-  document.getElementById("pantalla-final").style.display = "block";
+  document.getElementById("pantalla-juego").classList.add("oculto");
+  document.getElementById("pantalla-final").classList.remove("oculto");
 
   document.getElementById("nombre-final").textContent = nombreJugador;
   document.getElementById("puntaje-final").textContent = puntaje;
@@ -176,12 +176,12 @@ function guardarResultadoFirebase() {
 
 function enviarGoogleSheets() {
   const formData = new FormData();
-  formData.append("entry.1170332590", nombreJugador);          // Nombre
-  formData.append("entry.1406171993", numeroFicha);            // Ficha
-  formData.append("entry.2108813296", correoUsuario);          // Correo
-  formData.append("entry.1684532845", puntaje);                // Puntaje
-  formData.append("entry.1369388644", respuestasCorrectas);    // Correctas
-  formData.append("entry.12071704", respuestasIncorrectas);    // Incorrectas
+  formData.append("entry.1170332590", nombreJugador);
+  formData.append("entry.1406171993", numeroFicha);
+  formData.append("entry.2108813296", correoUsuario);
+  formData.append("entry.1684532845", puntaje);
+  formData.append("entry.1369388644", respuestasCorrectas);
+  formData.append("entry.12071704", respuestasIncorrectas);
 
   fetch("https://script.google.com/macros/s/AKfycbyjEMvnlC2bJ8dSjSfoVE7ClHM1IyE39SQv_CDu_S81pTNk_tWyrFPi-ouzQM2bSTxQog/exec", {
     method: "POST",
