@@ -176,12 +176,12 @@ function guardarResultadoFirebase() {
 
 function enviarGoogleSheets() {
   const formData = new FormData();
-  formData.append("entry.1170332590", nombreJugador);
-  formData.append("entry.1369388644", puntaje);
-  formData.append("entry.1684532845", respuestasCorrectas);
-  formData.append("entry.12071704", respuestasIncorrectas);
-  formData.append("entry.9876543210", numeroFicha);
-  formData.append("entry.1357911131", correoUsuario); // <-- reemplaza con tu ID real
+  formData.append("entry.1170332590", nombreJugador);          // Nombre
+  formData.append("entry.1406171993", numeroFicha);            // Ficha
+  formData.append("entry.2108813296", correoUsuario);          // Correo
+  formData.append("entry.1684532845", puntaje);                // Puntaje
+  formData.append("entry.1369388644", respuestasCorrectas);    // Correctas
+  formData.append("entry.12071704", respuestasIncorrectas);    // Incorrectas
 
   fetch("https://script.google.com/macros/s/AKfycbyjEMvnlC2bJ8dSjSfoVE7ClHM1IyE39SQv_CDu_S81pTNk_tWyrFPi-ouzQM2bSTxQog/exec", {
     method: "POST",
