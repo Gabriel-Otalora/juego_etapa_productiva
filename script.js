@@ -200,7 +200,7 @@ function enviarCertificadoPorCorreo() {
   formData.append("entry.1369388644", respuestasCorrectas);
   formData.append("entry.12071704", respuestasIncorrectas);
 
-  fetch("https://script.google.com/macros/s/AKfycbySla4pKm84iopmUdMLUW5JbCpP8J5aUFOCJAkEMXKE0cPOolwpj0DfUNFXMkjhl2zjTA/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbylFLMCihlZnGcfXc-3yRUnASJc_P-XrselWaYphzE_HyNmTlFxKiNSIn3Rt8HcrTtyLg/exec", {
     method: "POST",
     mode: "no-cors",
     body: formData
