@@ -7,7 +7,7 @@ let respuestasCorrectas = 0;
 let respuestasIncorrectas = 0;
 let puntaje = 0;
 let tiempoTotal = 60;
-let tiempoPregunta = 10;
+let tiempoPregunta = 20;
 let intervaloTotal, intervaloPregunta;
 
 // Mostrar pantallas
