@@ -158,7 +158,7 @@ function finalizarJuego() {
   document.getElementById("incorrectas").textContent = respuestasIncorrectas;
 
   guardarResultadoFirebase();
-  enviarGoogleSheets();
+  //enviarGoogleSheets();
   enviarCertificadoPorCorreo(); 
 }
 
