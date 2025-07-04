@@ -134,6 +134,9 @@ a {
   }
 
   .personaje-img {
-    width: 120px;
+  width: 160px;
+  margin: 20px auto 10px;
+  display: block;
   }
+
 }
