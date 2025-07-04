@@ -111,7 +111,7 @@ function mostrarPregunta() {
   });
 
   document.getElementById("respuesta").textContent = "";
-  document.getElementById("tiempo-pregunta").textContent = tiempoPregunta = 10;
+  document.getElementById("tiempo-pregunta").textContent = tiempoPregunta = 20;
   document.getElementById("progreso-pregunta").textContent = preguntaActual + 1;
 }
 
