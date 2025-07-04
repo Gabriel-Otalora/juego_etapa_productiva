@@ -183,7 +183,7 @@ function enviarGoogleSheets() {
   formData.append("entry.1369388644", respuestasCorrectas);
   formData.append("entry.12071704", respuestasIncorrectas);
 
-   fetch("https://script.google.com/macros/s/AKfycbySla4pKm84iopmUdMLUW5JbCpP8J5aUFOCJAkEMXKE0cPOolwpj0DfUNFXMkjhl2zjTA/exec", {
+   fetch("https://script.google.com/macros/s/AKfycbzKFYFqRCM4SS0D9mLpui4rVAMNwcmbvSBWYUB3ibrVaV7CrPGEhjKVTIbIiGn2jksMRg/exec", {
     method: "POST",
     mode: "no-cors",
     body: formData
