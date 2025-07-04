@@ -192,4 +192,4 @@ function enviarGoogleSheets() {
 
 function volverAlInicio() {
   location.reload();
-}
+
