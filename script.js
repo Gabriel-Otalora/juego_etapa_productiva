@@ -9,6 +9,7 @@ let puntaje = 0;
 let tiempoTotal = 60;
 let tiempoPregunta = 20;
 let intervaloTotal, intervaloPregunta;
+let resultadoEnviado = false;
 
 // Mostrar pantallas
 function mostrarInstrucciones() {
