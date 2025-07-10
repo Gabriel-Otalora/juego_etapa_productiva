@@ -147,6 +147,9 @@ function avanzarPregunta() {
 }
 
 function finalizarJuego() {
+  if (resultadoEnviado) return; // ⛔ Evita ejecuciones múltiples
+  resultadoEnviado = true;
+
   clearInterval(intervaloTotal);
   clearInterval(intervaloPregunta);
   document.getElementById("pantalla-juego").classList.add("oculto");
