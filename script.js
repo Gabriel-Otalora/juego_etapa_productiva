@@ -6,7 +6,7 @@ let preguntaActual = 0;
 let respuestasCorrectas = 0;
 let respuestasIncorrectas = 0;
 let puntaje = 0;
-let tiempoTotal = 60;
+let tiempoTotal = 80;
 let tiempoPregunta = 20;
 let intervaloTotal, intervaloPregunta;
 let resultadoEnviado = false;
@@ -91,9 +91,10 @@ function iniciarTemporizadores() {
     tiempoPregunta--;
     document.getElementById("tiempo-pregunta").textContent = tiempoPregunta;
     if (tiempoPregunta <= 0) {
+      // Marcar como incorrecta la respuesta si el tiempo se acaba
       respuestasIncorrectas++;
-      mostrarRetroalimentacion("⏱️ Tiempo agotado.");
-      avanzarPregunta();
+      mostrarRetroalimentacion("⏱️ ¡Tiempo agotado! Respuesta incorrecta.");
+      avanzarPregunta(); // Avanzar a la siguiente pregunta
     }
   }, 1000);
 }
